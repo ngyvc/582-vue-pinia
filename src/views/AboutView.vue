@@ -5,17 +5,55 @@
     <button @click="counter.increment()">Add</button>
     <button @click="counter.decrement()">Remove</button>
     <button @click="custom">Custom</button>
+    <h2>Students</h2>
+    <p>{{ school.students }}</p>
+    <ul>
+      <li
+        @click="school.addStudent(student)"
+        v-for="student in students"
+        :key="student.id"
+      >
+        {{ student.name }} - {{ student.age }}
+      </li>
+    </ul>
+    <h2>Teachers</h2>
+    <p>{{ school.teachers }}</p>
+    <ul>
+      <li
+        @click="school.addTeacher(teacher)"
+        v-for="teacher in teachers"
+        :key="teacher.id"
+      >
+        {{ teacher.name }} - {{ teacher.age }}
+      </li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { useCounterStore } from "@/store/counter";
+import { useSchoolStore } from "@/store/school";
 
 export default {
   name: "AboutView",
   setup() {
     const counter = useCounterStore();
-    return { counter };
+    const school = useSchoolStore();
+    return { counter, school };
+  },
+  data() {
+    return {
+      students: [
+        { id: 1, name: "John", age: 18 },
+        { id: 2, name: "Jane", age: 19 },
+        { id: 3, name: "Joe", age: 20 },
+      ],
+      teachers: [
+        { id: 1, name: "Mr. Smith", age: 40 },
+        { id: 2, name: "Mrs. Smith", age: 39 },
+        { id: 3, name: "Mr. Doe", age: 41 },
+      ],
+    };
   },
   methods: {
     custom() {
