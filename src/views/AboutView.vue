@@ -27,19 +27,26 @@
         {{ teacher.name }} - {{ teacher.age }}
       </li>
     </ul>
+    <h2>Users</h2>
+    <!-- <p>{{ online.users }}</p> -->
+    <ul>
+      <li v-for="user in online.users" :key="user.id">{{ user.name }}</li>
+    </ul>
   </div>
 </template>
 
 <script>
 import { useCounterStore } from "@/store/counter";
 import { useSchoolStore } from "@/store/school";
+import { useOnlineStore } from "@/store/online";
 
 export default {
   name: "AboutView",
   setup() {
     const counter = useCounterStore();
     const school = useSchoolStore();
-    return { counter, school };
+    const online = useOnlineStore();
+    return { counter, school, online };
   },
   data() {
     return {
@@ -60,6 +67,16 @@ export default {
       console.log("custom");
       this.counter.increment();
     },
+  },
+  created() {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json);
+        for (let user of json) {
+          this.online.addUser(user);
+        }
+      });
   },
 };
 </script>
