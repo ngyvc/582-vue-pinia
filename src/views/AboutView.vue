@@ -8,8 +8,20 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import { useCounterStore } from "@/store/counter";
 
-const counter = useCounterStore();
+export default {
+  name: "AboutView",
+  setup() {
+    const counter = useCounterStore();
+    return { counter };
+  },
+  methods: {
+    custom() {
+      console.log("custom");
+      this.counter.increment();
+    },
+  },
+};
 </script>
